@@ -125,7 +125,6 @@ public class DeckManager : MonoBehaviour
         deck.RemoveRange(0, 28);
     }
 
-
     void SetupStockPile()
     {
         foreach (Card card in deck)
@@ -155,7 +154,6 @@ public class DeckManager : MonoBehaviour
             card.IsTopCard = true;
             card.GetComponent<Collider2D>().enabled = true;
 
-
             int highestOrder = -1;
             foreach (Transform child in wastePilePosition)
             {
@@ -165,22 +163,25 @@ public class DeckManager : MonoBehaviour
             }
             card.GetComponent<SpriteRenderer>().sortingOrder = highestOrder + 1;
 
-
             card.transform.SetSiblingIndex(wastePilePosition.childCount - 1);
 
             wastePile.Push(card);
         }
         else
         {
-            // Reset từ waste về stock
+            // Reset lại các lá vẫn còn trong wastePilePosition (chưa được kéo đi)
             Stack<Card> temp = new Stack<Card>();
 
-            while (wastePile.Count > 0)
+            // Lặp tất cả các child trong wastePilePosition (vị trí thực tế)
+            for (int i = wastePilePosition.childCount - 1; i >= 0; i--)
             {
-                Card card = wastePile.Pop();
+                Transform child = wastePilePosition.GetChild(i);
+                Card card = child.GetComponent<Card>();
 
-                if (card.wasMovedFromWaste)
-                    continue;
+                if (card == null) continue;
+
+                // Chỉ reset nếu lá vẫn còn trong wastePilePosition (chưa bị kéo đi nơi khác)
+                if (card.transform.parent != wastePilePosition) continue;
 
                 card.transform.SetParent(stockPilePosition);
                 card.transform.localPosition = Vector3.zero;
@@ -192,20 +193,15 @@ public class DeckManager : MonoBehaviour
                 card.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 card.transform.SetSiblingIndex(0);
 
+                card.wasMovedFromWaste = false; // Reset lại cờ trạng thái
+
                 temp.Push(card);
             }
 
-            // Đưa các lá đủ điều kiện trở lại stack
             while (temp.Count > 0)
             {
                 stockPile.Push(temp.Pop());
             }
-
         }
     }
-
-
-
-
-
 }
