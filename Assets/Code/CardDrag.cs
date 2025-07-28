@@ -19,24 +19,40 @@ public class CardDrag : MonoBehaviour
         Card card = GetComponent<Card>();
         if (!card.isFaceUp) return;
 
-        isDragging = true;
-        originalPosition = transform.position;
         originalParent = transform.parent;
 
-        // Nếu kéo từ waste pile thì đánh dấu là đã được sử dụng
+        // Nếu đang ở waste pile → chỉ kéo lá trên cùng
         if (originalParent != null && originalParent.name.Contains("Waste"))
         {
+            int lastIndex = originalParent.childCount - 1;
+            if (transform.GetSiblingIndex() != lastIndex)
+            {
+                Debug.Log("Không thể kéo lá này từ waste (không phải lá trên cùng)");
+                return;
+            }
+
+            // Đánh dấu là kéo từ waste
             card.wasMovedFromWaste = true;
+
+            // Chỉ kéo 1 lá
+            draggedStack = new Transform[1];
+            draggedStack[0] = transform;
         }
-
-        int index = transform.GetSiblingIndex();
-        int count = originalParent.childCount;
-
-        draggedStack = new Transform[count - index];
-        for (int i = 0; i < draggedStack.Length; i++)
+        else
         {
-            draggedStack[i] = originalParent.GetChild(index + i);
+            // Kéo từ tableau: kéo cả stack phía dưới
+            int index = transform.GetSiblingIndex();
+            int count = originalParent.childCount;
+
+            draggedStack = new Transform[count - index];
+            for (int i = 0; i < draggedStack.Length; i++)
+            {
+                draggedStack[i] = originalParent.GetChild(index + i);
+            }
         }
+
+        isDragging = true;
+        originalPosition = transform.position;
 
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         offset = transform.position - new Vector3(mousePos.x, mousePos.y, 0f);
@@ -49,8 +65,9 @@ public class CardDrag : MonoBehaviour
                 sr.sortingOrder = baseOrder + i;
         }
 
-        Debug.Log("Dragging stack.");
+        Debug.Log("Dragging " + draggedStack.Length + " card(s).");
     }
+
 
     void OnMouseDrag()
     {
@@ -73,22 +90,36 @@ public class CardDrag : MonoBehaviour
 
         if (dropZone != null)
         {
+            Card currentCard = draggedStack[0].GetComponent<Card>();
+            Card topCard = GetTopCard(dropZone);
+
+            bool isValid = false;
+
             if (zoneType == "FoundationDropZone" && draggedStack.Length == 1)
             {
-                DropCard(draggedStack[0], dropZone);
-                TryFlipLastCard(originalParent);
-                Debug.Log("Dropped 1 card to foundation.");
+                isValid = RuleManager.instance.IsValidFoundationDrop(currentCard, topCard);
+                if (isValid)
+                {
+                    DropCard(draggedStack[0], dropZone);
+                    TryFlipLastCard(originalParent);
+                    Debug.Log("Dropped 1 card to foundation.");
+                }
             }
             else if (zoneType == "TableauDropZone")
             {
-                DropStack(dropZone);
-                TryFlipLastCard(originalParent);
-                Debug.Log("Dropped stack to tableau.");
+                isValid = RuleManager.instance.IsValidTableauDrop(currentCard, topCard);
+                if (isValid)
+                {
+                    DropStack(dropZone);
+                    TryFlipLastCard(originalParent);
+                    Debug.Log("Dropped stack to tableau.");
+                }
             }
-            else
+
+            if (!isValid)
             {
                 ReturnToOriginalPosition();
-                Debug.Log("Invalid drop for this zone.");
+                Debug.Log("Invalid drop by rule.");
             }
         }
         else
@@ -194,4 +225,13 @@ public class CardDrag : MonoBehaviour
         }
         return highest;
     }
+
+    Card GetTopCard(Transform dropZone)
+    {
+        if (dropZone.childCount == 0) return null;
+
+        Transform lastChild = dropZone.GetChild(dropZone.childCount - 1);
+        return lastChild.GetComponent<Card>();
+    }
+
 }
