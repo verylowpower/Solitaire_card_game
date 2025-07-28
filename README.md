@@ -1,2 +1,2 @@
-# Solaraire_card_game
-Solaraire game
+# Solitaire_card_game
+Solitaire game
