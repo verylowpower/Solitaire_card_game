@@ -4,10 +4,12 @@ public class CardDrag : MonoBehaviour
 {
     private bool isDragging = false;
     private Vector3 offset;
-    private Vector3 originalPosition;
+    // private Vector3 originalPosition;
     private Transform originalParent;
     private Camera mainCamera;
     private Transform[] draggedStack;
+    private Vector3[] originalLocalPositions;
+
 
     void Start()
     {
@@ -52,7 +54,14 @@ public class CardDrag : MonoBehaviour
         }
 
         isDragging = true;
-        originalPosition = transform.position;
+
+        //originalPosition = transform.position;
+
+        originalLocalPositions = new Vector3[draggedStack.Length];
+        for (int i = 0; i < draggedStack.Length; i++)
+        {
+            originalLocalPositions[i] = draggedStack[i].localPosition;
+        }
 
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         offset = transform.position - new Vector3(mousePos.x, mousePos.y, 0f);
@@ -79,6 +88,7 @@ public class CardDrag : MonoBehaviour
         for (int i = 0; i < draggedStack.Length; i++)
         {
             draggedStack[i].position = basePosition + new Vector3(0, -i * 0.2f, 0);
+
         }
     }
 
@@ -98,25 +108,57 @@ public class CardDrag : MonoBehaviour
             if (zoneType == "FoundationDropZone" && draggedStack.Length == 1)
             {
                 isValid = RuleManager.instance.IsValidFoundationDrop(currentCard, topCard);
-                if (isValid)
-                {
-                    DropCard(draggedStack[0], dropZone);
-                    TryFlipLastCard(originalParent);
-                    Debug.Log("Dropped 1 card to foundation.");
-                }
             }
             else if (zoneType == "TableauDropZone")
             {
                 isValid = RuleManager.instance.IsValidTableauDrop(currentCard, topCard);
-                if (isValid)
-                {
-                    DropStack(dropZone);
-                    TryFlipLastCard(originalParent);
-                    Debug.Log("Dropped stack to tableau.");
-                }
             }
 
-            if (!isValid)
+            if (isValid)
+            {
+                // 🟢 Xác định lá sẽ bị lộ ra sau khi kéo stack
+                Transform revealedCard = null;
+                bool revealedCardFaceUp = false;
+                int revealedCardSortingOrder = 0;
+                int revealedCardSiblingIndex = 0;
+
+                int draggedIndex = draggedStack[0].GetSiblingIndex();
+                if (originalParent.childCount > draggedIndex)
+                {
+                    int revealIndex = draggedIndex - 1;
+                    if (revealIndex >= 0)
+                    {
+                        revealedCard = originalParent.GetChild(revealIndex);
+                        var rc = revealedCard.GetComponent<Card>();
+                        if (rc != null)
+                        {
+                            revealedCardFaceUp = rc.isFaceUp;
+                            revealedCardSortingOrder = rc.GetComponent<SpriteRenderer>().sortingOrder;
+                            revealedCardSiblingIndex = rc.transform.GetSiblingIndex();
+                        }
+                    }
+                }
+
+
+                UndoManager.Instance.RecordMove(
+                    draggedStack,
+                    originalParent,
+                    dropZone,
+                    originalLocalPositions
+                );
+
+
+                if (zoneType == "FoundationDropZone")
+                    DropCard(draggedStack[0], dropZone);
+                else
+                    DropStack(dropZone);
+
+
+                TryFlipLastCard(originalParent);
+
+                Debug.Log("Dropped valid stack to " + zoneType);
+            }
+            else
             {
                 ReturnToOriginalPosition();
                 Debug.Log("Invalid drop by rule.");
@@ -128,6 +170,7 @@ public class CardDrag : MonoBehaviour
             Debug.Log("Drop zone not found. Reverting.");
         }
     }
+
 
     void DropStack(Transform dropZone)
     {
@@ -154,13 +197,16 @@ public class CardDrag : MonoBehaviour
         {
             var card = draggedStack[i];
             card.SetParent(originalParent);
-            card.position = originalPosition + new Vector3(0, -i * 0.2f, 0);
+
+
+            card.localPosition = originalLocalPositions[i];
 
             var sr = card.GetComponent<SpriteRenderer>();
             if (sr != null)
                 sr.sortingOrder = GetHighestSortingOrderInScene() + i;
         }
     }
+
 
     Transform GetValidDropZone(out string zoneType)
     {

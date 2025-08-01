@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-
     public static Card instance;
 
     public enum Suit { Heart = 0, Diamond = 1, Spade = 2, Club = 3 }
@@ -64,17 +63,28 @@ public class Card : MonoBehaviour
             cardCollider2D.enabled = IsTopCard || isFaceUp;
     }
 
+    // public void FlipCard()
+    // {
+    //     if (isFaceUp) return;
+
+    //     isFaceUp = true;
+    //     transform.DOScaleX(0, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
+    //     {
+    //         spriteRenderer.sprite = frontFace;
+    //         transform.DOScaleX(1, 0.1f).SetEase(Ease.OutQuad);
+    //     });
+    // }
+
     public void FlipCard()
     {
         if (isFaceUp) return;
 
         isFaceUp = true;
-        transform.DOScaleX(0, 0.2f).SetEase(Ease.InQuad).OnComplete(() =>
-        {
-            spriteRenderer.sprite = frontFace;
-            transform.DOScaleX(1, 0.1f).SetEase(Ease.OutQuad);
-        });
+        spriteRenderer.sprite = frontFace;
+        transform.localScale = new Vector3(1, 1, 1); // Đảm bảo scale chuẩn
+        UpdateColliderState();
     }
+
 
 }
 
