@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+public enum UndoType { Move, FlipStock }
+
 public class UndoAction
 {
+    public UndoType ActionType = UndoType.Move;
+
+    // --- Cho hành động Move ---
     public Transform[] Cards;
     public Transform FromParent;
     public Transform ToParent;
@@ -11,12 +16,16 @@ public class UndoAction
     public int[] OriginalSiblingIndexes;
     public int[] OriginalSortingOrders;
 
-    //card under
+    // --- Cho card bị lật sau kéo ---
     public Transform RevealedCard;
     public bool RevealedCardFaceUp;
     public int RevealedCardSortingOrder;
     public int RevealedCardSiblingIndex;
+
+    // --- Cho hành động FlipStock ---
+    public Card FlippedCard;
 }
+
 
 public class UndoManager : MonoBehaviour
 {
@@ -81,52 +90,137 @@ public class UndoManager : MonoBehaviour
         });
     }
 
+    public void RecordFlipStock(Card card)
+    {
+        _undoStack.Push(new UndoAction
+        {
+            ActionType = UndoType.FlipStock,
+            FlippedCard = card
+        });
+    }
+
+
+    // public void Undo()
+    // {
+    //     if (_undoStack.Count == 0) return;
+
+    //     UndoAction action = _undoStack.Pop();
+
+    //     for (int i = 0; i < action.Cards.Length; i++)
+    //     {
+    //         var card = action.Cards[i];
+
+    //         //restore Parent, location
+    //         card.SetParent(action.FromParent, false);
+    //         card.localPosition = action.OriginalPositions[i];
+    //         card.SetSiblingIndex(action.OriginalSiblingIndexes[i]);
+
+    //         // Restore face card
+    //         var cardComp = card.GetComponent<Card>();
+    //         bool shouldBeFaceUp = action.OriginalFaceUp[i];
+    //         cardComp.isFaceUp = shouldBeFaceUp;
+    //         cardComp.GetComponent<SpriteRenderer>().sprite = shouldBeFaceUp ? cardComp.frontFace : cardComp.backFace;
+    //         card.GetComponent<Collider2D>().enabled = shouldBeFaceUp;
+
+    //         // Restore Order
+    //         var sr = card.GetComponent<SpriteRenderer>();
+    //         if (sr != null)
+    //             sr.sortingOrder = action.OriginalSortingOrders[i];
+
+    //         Debug.Log($"[UNDO] Card: {cardComp.cardValue} {cardComp.suit} - isFaceUp: {shouldBeFaceUp}");
+    //     }
+
+    //     // Restore card under
+    //     if (action.RevealedCard != null)
+    //     {
+    //         var rc = action.RevealedCard.GetComponent<Card>();
+    //         rc.isFaceUp = action.RevealedCardFaceUp;
+    //         rc.GetComponent<SpriteRenderer>().sprite = action.RevealedCardFaceUp ? rc.frontFace : rc.backFace;
+    //         rc.GetComponent<Collider2D>().enabled = action.RevealedCardFaceUp;
+
+    //         rc.transform.SetSiblingIndex(action.RevealedCardSiblingIndex);
+    //         var sr = rc.GetComponent<SpriteRenderer>();
+    //         if (sr != null)
+    //             sr.sortingOrder = action.RevealedCardSortingOrder;
+
+    //         Debug.Log($"[UNDO] Revealed Card: {rc.cardValue} {rc.suit} - Restored faceUp: {rc.isFaceUp}");
+    //     }
+
+    //     Debug.Log("Undo completed.");
+    // }
+
     public void Undo()
     {
         if (_undoStack.Count == 0) return;
 
         UndoAction action = _undoStack.Pop();
 
-        for (int i = 0; i < action.Cards.Length; i++)
+        if (action.ActionType == UndoType.Move)
         {
-            var card = action.Cards[i];
+            // --- Undo hành động di chuyển bài ---
+            for (int i = 0; i < action.Cards.Length; i++)
+            {
+                var card = action.Cards[i];
 
-            //restore Parent, location
-            card.SetParent(action.FromParent, false);
-            card.localPosition = action.OriginalPositions[i];
-            card.SetSiblingIndex(action.OriginalSiblingIndexes[i]);
+                // Khôi phục vị trí và cha
+                card.SetParent(action.FromParent, false);
+                card.localPosition = action.OriginalPositions[i];
+                card.SetSiblingIndex(action.OriginalSiblingIndexes[i]);
 
-            // Restore face card
-            var cardComp = card.GetComponent<Card>();
-            bool shouldBeFaceUp = action.OriginalFaceUp[i];
-            cardComp.isFaceUp = shouldBeFaceUp;
-            cardComp.GetComponent<SpriteRenderer>().sprite = shouldBeFaceUp ? cardComp.frontFace : cardComp.backFace;
-            card.GetComponent<Collider2D>().enabled = shouldBeFaceUp;
+                // Khôi phục trạng thái mặt bài
+                var cardComp = card.GetComponent<Card>();
+                bool shouldBeFaceUp = action.OriginalFaceUp[i];
+                cardComp.isFaceUp = shouldBeFaceUp;
+                cardComp.GetComponent<SpriteRenderer>().sprite = shouldBeFaceUp ? cardComp.frontFace : cardComp.backFace;
+                card.GetComponent<Collider2D>().enabled = shouldBeFaceUp;
 
-            // Restore Order
-            var sr = card.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.sortingOrder = action.OriginalSortingOrders[i];
+                // Khôi phục sorting order
+                var sr = card.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                    sr.sortingOrder = action.OriginalSortingOrders[i];
 
-            Debug.Log($"[UNDO] Card: {cardComp.cardValue} {cardComp.suit} - isFaceUp: {shouldBeFaceUp}");
+                Debug.Log($"[UNDO] Card: {cardComp.cardValue} {cardComp.suit} - isFaceUp: {shouldBeFaceUp}");
+            }
+
+            // --- Undo card bị lộ ra sau khi kéo ---
+            if (action.RevealedCard != null)
+            {
+                var rc = action.RevealedCard.GetComponent<Card>();
+                rc.isFaceUp = action.RevealedCardFaceUp;
+                rc.GetComponent<SpriteRenderer>().sprite = action.RevealedCardFaceUp ? rc.frontFace : rc.backFace;
+                rc.GetComponent<Collider2D>().enabled = action.RevealedCardFaceUp;
+
+                rc.transform.SetSiblingIndex(action.RevealedCardSiblingIndex);
+                var sr = rc.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                    sr.sortingOrder = action.RevealedCardSortingOrder;
+
+                Debug.Log($"[UNDO] Revealed Card: {rc.cardValue} {rc.suit} - Restored faceUp: {rc.isFaceUp}");
+            }
+
+            Debug.Log("Undo completed (Move).");
         }
-
-        // Restore card under
-        if (action.RevealedCard != null)
+        else if (action.ActionType == UndoType.FlipStock)
         {
-            var rc = action.RevealedCard.GetComponent<Card>();
-            rc.isFaceUp = action.RevealedCardFaceUp;
-            rc.GetComponent<SpriteRenderer>().sprite = action.RevealedCardFaceUp ? rc.frontFace : rc.backFace;
-            rc.GetComponent<Collider2D>().enabled = action.RevealedCardFaceUp;
+            // --- Undo hành động lật bài từ stock → waste ---
+            Card card = action.FlippedCard;
+            if (card != null && card.transform.parent == DeckManager.instance.wastePilePosition)
+            {
+                card.transform.SetParent(DeckManager.instance.stockPilePosition);
+                card.transform.localPosition = Vector3.zero;
 
-            rc.transform.SetSiblingIndex(action.RevealedCardSiblingIndex);
-            var sr = rc.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.sortingOrder = action.RevealedCardSortingOrder;
+                card.SetFaceUp(false);
+                card.IsTopCard = false;
+                card.GetComponent<Collider2D>().enabled = false;
 
-            Debug.Log($"[UNDO] Revealed Card: {rc.cardValue} {rc.suit} - Restored faceUp: {rc.isFaceUp}");
+                card.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                card.transform.SetSiblingIndex(0);
+
+                DeckManager.instance.PushBackToStock(card);
+
+                Debug.Log($"[UNDO] FlipStock undone: {card.cardValue} {card.suit}");
+            }
         }
-
-        Debug.Log("Undo completed.");
     }
+
 }

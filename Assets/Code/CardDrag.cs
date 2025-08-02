@@ -116,7 +116,7 @@ public class CardDrag : MonoBehaviour
 
             if (isValid)
             {
-                // 🟢 Xác định lá sẽ bị lộ ra sau khi kéo stack
+                
                 Transform revealedCard = null;
                 bool revealedCardFaceUp = false;
                 int revealedCardSortingOrder = 0;

@@ -147,6 +147,7 @@ public class DeckManager : MonoBehaviour
         if (stockPile.Count > 0)
         {
             Card card = stockPile.Pop();
+            UndoManager.Instance.RecordFlipStock(card);
 
             card.transform.SetParent(wastePilePosition);
             card.transform.localPosition = Vector3.zero;
@@ -204,4 +205,10 @@ public class DeckManager : MonoBehaviour
             }
         }
     }
+
+    public void PushBackToStock(Card card)
+    {
+        stockPile.Push(card);
+    }
+
 }

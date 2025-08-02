@@ -9,15 +9,18 @@ public class RuleManager : MonoBehaviour
 
     public bool IsValidTableauDrop(Card currentCard, Card cardTarget)
     {
-        // kiem tra xem card muc tieu co lat len hay chua
-        if (cardTarget == null || !cardTarget.isFaceUp) return false;
+      
+        if (cardTarget == null)
+            return currentCard.cardValue == Card.CardValue.King;
+
+        if (!cardTarget.isFaceUp) return false;
 
         bool isOppositeColor = IsOppositeColor(currentCard.suit, cardTarget.suit);
-
         bool isOneLess = currentCard.cardValue == cardTarget.cardValue - 1;
 
         return isOppositeColor && isOneLess;
     }
+
 
     public bool IsValidFoundationDrop(Card currentCard, Card topFoundationCard)
     {
