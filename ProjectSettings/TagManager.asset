@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - ValidDropZone
   - FoundationDropZone
-  - TableauDropZone
+  - Tableau
+  - Foundation
   layers:
   - Default
   - TransparentFX

@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -304,6 +305,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb368fc55ce4b86b1e804e2771244d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &633463085
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,10 +361,9 @@ GameObject:
   - component: {fileID: 633463090}
   - component: {fileID: 633463089}
   - component: {fileID: 633463088}
-  - component: {fileID: 633463087}
   m_Layer: 6
   m_Name: Drop Zone 4
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,20 +383,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069128278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &633463087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 633463085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!114 &633463088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,10 +511,9 @@ GameObject:
   - component: {fileID: 685772901}
   - component: {fileID: 685772900}
   - component: {fileID: 685772899}
-  - component: {fileID: 685772898}
   m_Layer: 6
   m_Name: Drop Zone 3
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -504,20 +533,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069128278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &685772898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685772896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!114 &685772899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,10 +699,9 @@ GameObject:
   - component: {fileID: 972537519}
   - component: {fileID: 972537518}
   - component: {fileID: 972537517}
-  - component: {fileID: 972537516}
   m_Layer: 6
   m_Name: Drop Zone 2
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -707,20 +721,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069128278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &972537516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 972537514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!114 &972537517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,10 +1191,9 @@ GameObject:
   - component: {fileID: 1218605023}
   - component: {fileID: 1218605022}
   - component: {fileID: 1218605024}
-  - component: {fileID: 1218605025}
   m_Layer: 6
   m_Name: Drop Zone 7
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1330,20 +1329,6 @@ MonoBehaviour:
   columnParent: {fileID: 1069191253706794916}
   spacing: -0.2
   extraOffset: -0.3
---- !u!114 &1218605025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1218605019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!1 &1535666031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,8 +1413,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420033}
-        m_TargetAssemblyTypeName: UndoButton, Assembly-CSharp
-        m_MethodName: OnClickUndo
+        m_TargetAssemblyTypeName: UI.UndoButton, Assembly-CSharp
+        m_MethodName: OnUndoClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1489,10 +1474,9 @@ GameObject:
   - component: {fileID: 1582146185}
   - component: {fileID: 1582146184}
   - component: {fileID: 1582146183}
-  - component: {fileID: 1582146182}
   m_Layer: 6
   m_Name: Drop Zone 5
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1512,20 +1496,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069128278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1582146182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1582146180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!114 &1582146183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1754,7 +1724,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1884298544}
   - component: {fileID: 1884298543}
-  - component: {fileID: 1884298545}
   - component: {fileID: 1884298546}
   - component: {fileID: 1884298547}
   m_Layer: 0
@@ -1856,18 +1825,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1884298545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884298542}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b9986ba79772ee40b3f31ab237c567d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1884298546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1880,6 +1837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60034f66d17c404c809c1954a55d7c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stockPileTransform: {fileID: 1069191254229658691}
+  wastePileTransform: {fileID: 1069191254318639186}
 --- !u!114 &1884298547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1906,7 +1865,7 @@ GameObject:
   - component: {fileID: 1906613971}
   m_Layer: 6
   m_Name: Drop Zone 1
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2054,10 +2013,9 @@ GameObject:
   - component: {fileID: 2058188160}
   - component: {fileID: 2058188159}
   - component: {fileID: 2058188158}
-  - component: {fileID: 2058188157}
   m_Layer: 6
   m_Name: Drop Zone 6
-  m_TagString: ValidDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2077,20 +2035,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069128278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2058188157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058188155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf46ecbfac847047a375173235e6974, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  size: {x: 0.64, y: 1.06}
 --- !u!114 &2058188158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3729,7 +3673,7 @@ GameObject:
   - component: {fileID: 8536025476892125498}
   m_Layer: 0
   m_Name: Heart
-  m_TagString: FoundationDropZone
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3774,7 +3718,7 @@ GameObject:
   - component: {fileID: 3463648034121369337}
   m_Layer: 7
   m_Name: 2
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3792,7 +3736,7 @@ GameObject:
   - component: {fileID: 3463648034174727653}
   m_Layer: 7
   m_Name: 6
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3810,7 +3754,7 @@ GameObject:
   - component: {fileID: 3463648034439680985}
   m_Layer: 7
   m_Name: 4
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3828,7 +3772,7 @@ GameObject:
   - component: {fileID: 3463648033801598331}
   m_Layer: 7
   m_Name: 1
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3847,7 +3791,7 @@ GameObject:
   - component: {fileID: 8536025477994979346}
   m_Layer: 0
   m_Name: Spade
-  m_TagString: FoundationDropZone
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3892,7 +3836,7 @@ GameObject:
   - component: {fileID: 3463648035149917612}
   m_Layer: 7
   m_Name: 5
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3910,7 +3854,7 @@ GameObject:
   - component: {fileID: 3463648035198527477}
   m_Layer: 7
   m_Name: 7
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3928,7 +3872,7 @@ GameObject:
   - component: {fileID: 3463648034582489091}
   m_Layer: 0
   m_Name: 'Waste Pile '
-  m_TagString: ValidDropZone
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3978,7 +3922,7 @@ GameObject:
   - component: {fileID: 8536025478652797698}
   m_Layer: 0
   m_Name: Diamond
-  m_TagString: FoundationDropZone
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4023,7 +3967,7 @@ GameObject:
   - component: {fileID: 3463648034759493985}
   m_Layer: 7
   m_Name: 3
-  m_TagString: TableauDropZone
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4042,7 +3986,7 @@ GameObject:
   - component: {fileID: 8536025478685346384}
   m_Layer: 0
   m_Name: Club
-  m_TagString: FoundationDropZone
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
