@@ -6,15 +6,32 @@ namespace DragDrop.Helper
     {
         public static void BringToFront(Transform[] stack)
         {
-            int startOrder = 30;
+            int maxOrder = GetMaxSortingOrderInScene();
+
             for (int i = 0; i < stack.Length; i++)
             {
                 var sr = stack[i].GetComponent<SpriteRenderer>();
                 if (sr != null)
                 {
-                    sr.sortingOrder = startOrder + i;
+                    sr.sortingOrder = maxOrder + i + 1;
                 }
             }
+        }
+
+        private static int GetMaxSortingOrderInScene()
+        {
+            SpriteRenderer[] allRenderers = Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None);
+            int maxOrder = 0;
+
+            foreach (var sr in allRenderers)
+            {
+                if (sr.sortingOrder > maxOrder)
+                {
+                    maxOrder = sr.sortingOrder;
+                }
+            }
+
+            return maxOrder;
         }
 
         public static int[] RecordSortingOrders(Transform[] stack)

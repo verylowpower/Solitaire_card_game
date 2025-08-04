@@ -72,6 +72,7 @@ namespace DragDrop
                 UndoManager.Instance.RecordMove(draggedStack, originalParent, dropZone, originalLocalPositions);
                 DropZoneHelper.Drop(draggedStack, dropZone, zoneType);
                 DropZoneHelper.TryFlipLastCard(originalParent);
+                Object.FindAnyObjectByType<AutoMoveToFoundation>()?.TryAutoComplete();
                 Debug.Log("Dropped valid stack to " + zoneType);
             }
             else

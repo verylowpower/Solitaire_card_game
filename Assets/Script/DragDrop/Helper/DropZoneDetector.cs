@@ -6,26 +6,36 @@ namespace DragDrop.Helper
     {
         public static Transform GetValidDropZone(Camera cam, out string zoneType)
         {
-            zoneType = null;
-            Vector2 mouseWorldPos = cam.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
+            Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            float minDistance = float.MaxValue;
+            Transform closestZone = null;
+            zoneType = "";
 
-            if (hit.collider != null)
+            // Check Tableau Zones
+            foreach (GameObject zone in GameObject.FindGameObjectsWithTag("Tableau"))
             {
-                if (hit.collider.CompareTag("Tableau"))
+                float dist = Vector2.Distance(mousePos, zone.transform.position);
+                if (dist < 1f && dist < minDistance)
                 {
+                    minDistance = dist;
+                    closestZone = zone.transform;
                     zoneType = "Tableau";
-                    return hit.collider.transform;
-                }
-
-                if (hit.collider.CompareTag("Foundation"))
-                {
-                    zoneType = "Foundation";
-                    return hit.collider.transform;
                 }
             }
 
-            return null;
+            // Check Foundation Zones
+            foreach (GameObject zone in GameObject.FindGameObjectsWithTag("Foundation"))
+            {
+                float dist = Vector2.Distance(mousePos, zone.transform.position);
+                if (dist < 1f && dist < minDistance)
+                {
+                    minDistance = dist;
+                    closestZone = zone.transform;
+                    zoneType = "Foundation";
+                }
+            }
+
+            return closestZone;
         }
     }
 }
