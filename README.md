@@ -36,3 +36,5 @@ Assets/
         ├── StockPileClick.cs
         └── TableauDropZoneUpdater.cs
 ```
+Bug: Không thể đặt card lên trên top card trong tableau được
+     Phải thả từ trên cọc bài xuống
