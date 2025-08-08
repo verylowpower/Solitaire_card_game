@@ -148,13 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3de237fb68e57fe47ad7817aceaa287b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suit: 0
-  cardValue: 0
+  spriteRenderer: {fileID: 3418835234516628327}
   frontFace: {fileID: 0}
   backFace: {fileID: 0}
-  isFaceUp: 0
-  wasMovedFromWaste: 0
-  _isTopCard: 0
 --- !u!114 &9168100469789927884
 MonoBehaviour:
   m_ObjectHideFlags: 0
