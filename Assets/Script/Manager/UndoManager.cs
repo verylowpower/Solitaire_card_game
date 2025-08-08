@@ -8,7 +8,7 @@ namespace Managers
     public class UndoManager : MonoBehaviour
     {
         public static UndoManager Instance;
-        private Stack<IUndoAction> _undoStack = new();
+        public Stack<IUndoAction> _undoStack = new();
 
         public Transform stockPileTransform;
         public Transform wastePileTransform;

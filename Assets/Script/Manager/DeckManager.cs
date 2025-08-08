@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core;
 using Undo;
 using Managers;
+using Rules;
 
 namespace Managers
 {
@@ -13,6 +14,7 @@ namespace Managers
         public GameObject cardPrefabs;
         public Sprite[] cardSprite;
         public Transform[] tableauPiles;
+        public Transform[] foundationPiles;
         public Sprite backSprite;
 
         public Transform stockPilePosition;
@@ -158,6 +160,45 @@ namespace Managers
                 while (temp.Count > 0)
                     stockPile.Push(temp.Pop());
             }
+        }
+
+        public void ResetGame()
+        {
+            foreach (Transform tableau in tableauPiles)
+            {
+                for (int i = tableau.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(tableau.GetChild(i).gameObject);
+                }
+            }
+
+            foreach (Transform foundation in foundationPiles)
+            {
+                for (int i = foundation.childCount - 1; i >= 0; i--)
+                {
+                    Destroy(foundation.GetChild(i).gameObject);
+                }
+            }
+
+            foreach (Transform child in stockPilePosition)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (Transform child in wastePilePosition)
+            {
+                Destroy(child.gameObject);
+            }
+
+            deck.Clear();
+            stockPile.Clear();
+            wastePile.Clear();
+
+            UndoManager.Instance?._undoStack.Clear();
+
+            DeckCreate();
+            DeckSuffle();
+            DealToTableau();
+            SetupStockPile();
         }
 
         public void PushBackToStock(Card card) => stockPile.Push(card);
