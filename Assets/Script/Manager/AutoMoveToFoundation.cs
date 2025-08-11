@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core;
-using DragDrop.Helper;  
+using DragDrop.Helper;
 using Managers;
 using Zones;
 
@@ -15,7 +15,7 @@ namespace Managers
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) 
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 TryAutoComplete();
             }
@@ -34,7 +34,6 @@ namespace Managers
             MoveAllValidCardsToFoundation();
         }
 
-        // Kiểm tra có thể auto-complete hay không (mô phỏng bằng RuleManager)
         private bool CanAutoComplete()
         {
             if (foundationZones == null || foundationZones.Count == 0)
@@ -43,17 +42,12 @@ namespace Managers
                 return false;
             }
 
-            // Nếu tất cả tableau đã trống thì cho phép
-            if (AllTableauCleared()) return true;
-
-            // Lấy tất cả card ngoài foundation
             Card[] allCards = GameObject.FindObjectsByType<Card>(FindObjectsSortMode.None);
             List<Card> remaining = new List<Card>();
             foreach (Card c in allCards)
             {
-                if (IsInAnyFoundation(c.transform)) continue; // đã ở foundation -> bỏ qua
+                if (IsInAnyFoundation(c.transform)) continue;
 
-                // Nếu có card úp ngoài foundation => không thể auto
                 if (!c.IsFaceUp)
                 {
                     Debug.Log("Cannot auto-complete: found face-down card outside foundation: " + c.name);
@@ -62,8 +56,6 @@ namespace Managers
                 remaining.Add(c);
             }
 
-            // Mô phỏng: lặp, tìm card nào có thể đặt lên một foundation (theo RuleManager),
-            // nếu tìm được thì "loại" card đó khỏi remaining và tiếp tục.
             bool movedAny;
             do
             {
@@ -77,7 +69,6 @@ namespace Managers
                         Card top = DropZoneHelper.GetTopCard(foundation);
                         if (RuleManager.instance.IsValidFoundationDrop(card, top))
                         {
-                            // "di chuyển" giả định: loại bỏ card khỏi danh sách remaining
                             remaining.RemoveAt(i);
                             movedAny = true;
                             break;
@@ -99,17 +90,6 @@ namespace Managers
             return false;
         }
 
-        private bool AllTableauCleared()
-        {
-            if (tableauZones == null) return false;
-            foreach (Transform column in tableauZones)
-            {
-                if (column.childCount > 0) return false;
-            }
-            return true;
-        }
-
-        // Di chuyển thực tế — lặp nhiều lượt cho đến khi không còn lá nào có thể di chuyển
         private void MoveAllValidCardsToFoundation()
         {
             if (foundationZones == null || foundationZones.Count == 0)
@@ -135,7 +115,6 @@ namespace Managers
                         {
                             Debug.Log("Moving " + card.name + " to " + foundation.name);
 
-                            // Ghi undo nếu cần: UndoManager.Instance?.RecordMove(...)
                             card.transform.SetParent(foundation);
                             card.transform.localPosition = Vector3.zero;
                             card.GetComponent<Collider2D>().enabled = false;
@@ -147,7 +126,7 @@ namespace Managers
                         }
                     }
 
-                    if (moved) break; // bắt đầu vòng quét lại từ đầu sau khi di chuyển 1 lá
+                    if (moved) break;
                 }
             } while (moved);
         }
