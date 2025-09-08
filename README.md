@@ -38,7 +38,7 @@ Assets/
 
 ## 🛠️ Công nghệ
 
-* **Unity 2022+**
+* **Unity 6**
 * **C#**
 
 ## 🚀 Hướng phát triển
