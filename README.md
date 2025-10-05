@@ -2,6 +2,8 @@
 
 Một phiên bản **Solitaire (Klondike)** được phát triển bằng **Unity** với đầy đủ các tính năng cơ bản như kéo thả lá bài, hệ thống undo, và xử lý luật chơi chuẩn.
 
+Demo: [Solitaire](https://ye-loathsome.itch.io/solitaire)
+
 ## ✨ Tính năng chính
 
 * 🎴 **Kéo thả stack**: Cho phép kéo nhiều lá bài cùng lúc trong tableau.
